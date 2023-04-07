@@ -12,10 +12,10 @@ export const register = async (req, res) => {
   if (!user) {
     return res
       .status(400)
-      .json({ success: false, message: "Tạo tài khoản thất bại" });
+      .json({ success: false, message: "Tạo tài khoản thất bại: not user" });
   }
   try {
-    const existUser = await UserModel.findOne({ userName: user.userName });
+    const existUser = await UserModel.findOne({ email: user.email });
     if (existUser) {
       return res
         .status(400)
@@ -38,6 +38,6 @@ export const register = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(400).json({ success: false, message: "Tạo tài khoản thất bại" });
+    res.status(400).json({ success: false, message: "Tạo tài khoản thất bại!" });
   }
 };

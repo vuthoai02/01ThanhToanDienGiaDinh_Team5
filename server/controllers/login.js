@@ -6,21 +6,21 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const login = async (req, res) => {
-  const userName = req.body.userName;
+  const email = req.body.email;
   const loPassword = req.body.password;
 
   try {
-    const user = await UserModel.findOne({ userName: userName });
+    const user = await UserModel.findOne({ email: email });
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "Sai tên đăng nhập hoặc mật khẩu" });
+        .json({ success: false, message: "Sai địa chỉ email hoặc mật khẩu" });
     }
     const valid = await argon2.verify(user.password, loPassword);
     if (!valid) {
       return res
         .status(400)
-        .json({ success: false, message: "Sai tên đăng nhập hoặc mật khẩu" });
+        .json({ success: false, message: "Sai địa chỉ email hoặc mật khẩu" });
     }
     //create accessToken
     const accessToken = jwt.sign(
@@ -35,7 +35,7 @@ export const login = async (req, res) => {
       accessToken: accessToken,
     });
   } catch (error) {
-    console.log(err);
+    console.log(error);
     res
       .status(400)
       .json({ success: false, message: "Đăng nhập không thành công" });

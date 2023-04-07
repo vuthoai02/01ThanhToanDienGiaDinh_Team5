@@ -3,14 +3,13 @@ import { CustomerModel } from "../models/CustomerModel.js";
 export const getCustomer = async (req, res) => {
   const customerCode = req.query.customerCode;
   try {
-    const customer = await CustomerModel.findOne(customerCode);
+    const customer = await CustomerModel.findOne({customerCode: customerCode});
     return res.status(200).json({
       success: true,
       message: "Lấy thông tin thành công",
       data: customer,
     });
   } catch (error) {
-    console.log(err);
     res
       .status(400)
       .json({ success: false, message: "Lấy thông tin không thành công!" });

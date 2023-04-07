@@ -12,6 +12,7 @@ const schema = new mongoose.Schema({
   role: {
     type: Boolean,
     default: false,
+    required: false
   },
   customerCode: {
     type: String,

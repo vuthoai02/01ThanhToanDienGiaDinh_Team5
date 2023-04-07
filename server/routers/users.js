@@ -1,6 +1,6 @@
 import express from "express";
 
-import { changePassword, getUser } from "../controllers/usersControllers";
+import { changePassword, getUser } from "../controllers/usersControllers.js";
 import { login } from "../controllers/login.js";
 import { register } from "../controllers/register.js";
 import verifyToken from "../controllers/verifyToken.js";

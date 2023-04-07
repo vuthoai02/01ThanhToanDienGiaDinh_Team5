@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema({
   customerCode: {
     type: String,
-    required: false,
+    require: false,
   },
   customerName: {
     type: String,
-    required: true,
+    require: true,
   },
   phoneNumber: {
     type: String,
@@ -45,6 +45,7 @@ const schema = new mongoose.Schema({
   voltage: {
     type: Number,
     required: false,
+    default: 1
   },
   indicatorRecordDate: {
     type: Number,
@@ -60,58 +61,6 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  electricityList: [
-    {
-        invoiceId: {
-            type: String,
-            required: true,
-        },
-        newIndicator: {
-            type: Number,
-            required: true,
-            default: 0,
-        },
-        oldIndicator: {
-            type: Number,
-            required: true,
-            default: 0,
-        },
-        hs: {
-            type: Number,
-            required: false,
-            default: 1,
-        },
-        dntructiep: {
-            type: Number,
-            required: false,
-            default: 0,
-        },
-        actualElectric: {
-            type: Number,
-            required: true,
-            default: 0,
-        },
-        unitPrice: {
-            type: Number,
-            required: false,
-            default: 2320,
-        },
-        VATRate: {
-            type: Number,
-            required: false,
-            default: 10,
-        },
-        signinDate: {
-            type: Date,
-            required: true,
-        },
-        isPayment: {
-          type: Boolean,
-          required: true,
-          default: false,
-        }
-    }
-  ],
 });
 
 export const CustomerModel = mongoose.model("Customer", schema);
