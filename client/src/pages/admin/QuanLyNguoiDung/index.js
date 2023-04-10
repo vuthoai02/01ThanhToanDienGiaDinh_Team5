@@ -63,7 +63,7 @@ export default function QuanLyNguoiDung() {
   }, [users]);
   //render
   return (
-    <Grid>
+    <Grid item container>
       <Box
         sx={{
           width: "100%",

@@ -44,3 +44,42 @@ export function* createUserSaga(action) {
     yield put(userActions.createUser.createUserFailure(error));
   }
 }
+
+export function* updateCusCode(action){
+  try {
+    const cusCode = yield call(api.updateCustomerCode, action.payload);
+    yield put(userActions.updateCusCode.updateCusCodeSuccess(action.payload?.customerCode));
+    NotificationManager.success("", cusCode.data.message, 3000);
+  } catch (error) {
+    NotificationManager.error("", error.response.data.message, 3000);
+    yield put(userActions.updateCusCode.updateCusCodeFailure(error));
+  }
+}
+
+export function* fetchBillsSaga(action){
+  try {
+    const bills = yield call(api.getBills, action.payload);
+    yield put(userActions.getBills.getBillsSuccess(bills.data.data));
+  } catch (error) {
+    NotificationManager.error("", error.response.data.message, 3000);
+    yield put(userActions.getBills.getBillsFailure(error));
+  }
+}
+
+export function* fetchCustomerSaga(action){
+  try {
+    const customer = yield call(api.fetchCustomer, action.payload);
+    yield put(userActions.fetchCustomer.fetchCustomerSuccess(customer.data.data));
+  } catch (error) {
+    NotificationManager.error("", error.response.data.message, 3000);
+    yield put(userActions.fetchCustomer.fetchCustomerFailure(error));
+  }
+}
+
+export function* showBillSaga(action){
+  try {
+    yield put(userActions.showBill.showBillSuccess(action.payload));
+  } catch (error) {
+    yield put(userActions.showBill.showBillFailure(error));
+  }
+}

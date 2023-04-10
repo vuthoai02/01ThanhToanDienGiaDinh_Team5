@@ -15,7 +15,7 @@ router.post('/create-customer', adminControllers.createCustomer);
 router.put('/update-bill', adminControllers.upadteBill);
 router.put('/update-customer', adminControllers.updateCustomer);
 router.get('/get-customer', customerControllers.getCustomer);
-router.get('/get-bill', customerControllers.getBill);
+router.get('/get-bill-by-code', customerControllers.getBillsByCustomerCode);
 router.get('/get-user',userControllers.getUserByEmail);
 router.put('/change-auth',adminControllers.changeAuth);
 router.post('/create-bill', adminControllers.createBill);

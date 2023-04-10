@@ -1,11 +1,19 @@
 import { takeLatest } from "redux-saga/effects";
 import * as userActions from "../actions/userActions";
 import * as adminActions from "../actions/adminActions";
-import { fetchUserByIdSaga, fetchUserSaga, createUserSaga } from "./users.js";
+import {
+  fetchUserByIdSaga,
+  fetchUserSaga,
+  createUserSaga,
+  updateCusCode,
+  fetchBillsSaga,
+  fetchCustomerSaga,
+  showBillSaga
+} from "./users.js";
 import {
   createCustomerSaga,
-  fetchCustomerSaga,
   searchCustomerSaga,
+  fetchCustomersSaga,
   deleteCustomerSaga,
   getAllUsersSaga,
   getUserSaga,
@@ -13,9 +21,10 @@ import {
   deleteUserSaga,
   createBillSaga,
   getBillsSaga,
-  deleteBillSaga
+  deleteBillSaga,
 } from "./admin.js";
 function* mySaga() {
+  /*============USER==================*/
   yield takeLatest(
     userActions.getUserById.getUserByIdRequest,
     fetchUserByIdSaga
@@ -23,12 +32,20 @@ function* mySaga() {
   yield takeLatest(userActions.getUser.getUserRequest, fetchUserSaga);
   yield takeLatest(userActions.createUser.createUserRequest, createUserSaga);
   yield takeLatest(
+    userActions.updateCusCode.updateCusCodeRequest,
+    updateCusCode
+  );
+  yield takeLatest(userActions.getBills.getBillsRequest, fetchBillsSaga);
+  yield takeLatest(userActions.fetchCustomer.fetchCustomerRequest, fetchCustomerSaga);
+  yield takeLatest(userActions.showBill.showBillRequest, showBillSaga);
+  /*=============ADMIN===============*/
+  yield takeLatest(
     adminActions.createCustomer.createCustomerRequest,
     createCustomerSaga
   );
   yield takeLatest(
     adminActions.getCustomer.getCustomerRequest,
-    fetchCustomerSaga
+    fetchCustomersSaga
   );
   yield takeLatest(
     adminActions.searchCustomer.searchCustomerRequest,

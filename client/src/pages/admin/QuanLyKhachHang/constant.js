@@ -19,10 +19,10 @@ export const columns = [
     label: "Thao tác",
     minWidth: 100,
     align: "center",
-    render: ({handleDelete, row}) => {
+    render: ({handleDelete, row, functional}) => {
       return (
         <Box>
-          <IconButton>
+          <IconButton onClick={() => functional(row)}>
             <Visibility color="primary" titleAccess="Thông tin chi tiết" />
           </IconButton>
           <IconButton onClick={() => handleDelete(row)}>
@@ -38,7 +38,7 @@ export const form = (values) => [
   {
     name: "customerCode",
     label: "Mã khách hàng",
-    width: 12,
+    width: 11,
     type: "text",
     value: values?.customerCode,
     required: true,
@@ -142,7 +142,7 @@ export const form = (values) => [
   {
     name: "taxCode",
     label: "Mã số thuế",
-    width: 12,
+    width: 11,
     type: "text",
     value: values?.taxCode,
     required: true,

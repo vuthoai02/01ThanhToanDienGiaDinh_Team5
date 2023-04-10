@@ -22,4 +22,29 @@ export const createUser = createActions({
   createUserFailure: (err) => err,
 });
 
+
+export const updateCusCode = createActions({
+  updateCusCodeRequest: (payload) => payload,
+  updateCusCodeSuccess: (payload) => payload,
+  updateCusCodeFailure: (err) => err
+});
+
+export const getBills = createActions({
+  getBillsRequest: payload => payload,
+  getBillsSuccess: payload => payload,
+  getBillsFailure: err => err
+});
+
+export const fetchCustomer = createActions({
+  fetchCustomerRequest: payload => payload,
+  fetchCustomerSuccess: payload => payload,
+  fetchCustomerFailure: err => err
+});
+
+export const showBill = createActions({
+  showBillRequest: payload => payload,
+  showBillSuccess: payload => payload,
+  showBillFailure: err => err
+})
+
 export const logout = createAction("LOGOUT");

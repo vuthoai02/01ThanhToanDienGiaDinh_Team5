@@ -45,19 +45,24 @@ export default function QuanLyKH() {
     indicatorRecordDate: 28,
     businessChargeCode: "",
     taxCode: "",
-    electricityList: [],
   });
   const customers = useSelector(adminState$)?.customers;
   const [searchValue, setSearchValue] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [isLoad, setLoad] = React.useState(true);
   const dispatch = useDispatch();
-  const formList = form(values);
+  const [detail,setDetail] = React.useState(null);
+  const formList = form(detail? detail:values);
 
   //Function
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const handleShow = (row) => {
+    setDetail(row);
+    setOpen(true);
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -99,7 +104,6 @@ export default function QuanLyKH() {
       indicatorRecordDate: 28,
       businessChargeCode: "",
       taxCode: "",
-      electricityList: [],
     });
     handleClose();
   };
@@ -164,6 +168,7 @@ export default function QuanLyKH() {
           columns={columns}
           rows={customers}
           handleDelete={handleDelete}
+          functional={handleShow}
         />
       ) : (
         <Box

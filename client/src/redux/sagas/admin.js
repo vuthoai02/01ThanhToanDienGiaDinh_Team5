@@ -16,7 +16,7 @@ export function* createCustomerSaga(action){
     }
 }
 
-export function* fetchCustomerSaga(action){
+export function* fetchCustomersSaga(action){
     try {
         const customerList = yield call(api.fetchCustomerList, action.payload);
         yield put(adminActions.getCustomer.getCustomerSuccess(customerList.data.data));

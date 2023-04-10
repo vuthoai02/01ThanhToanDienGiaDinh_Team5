@@ -19,7 +19,7 @@ import { adminTabList, userTabList } from "./authorTab";
 
 export default function Home() {
   //set Variables
-  const user = useSelector(userState$);
+  const user = useSelector(userState$)?.info;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [tab, setTab] = React.useState('');
@@ -61,6 +61,8 @@ export default function Home() {
     if(tab === 'qlkh') dispatch(adminActions.getCustomer.getCustomerRequest());
     if(tab === 'qlu') dispatch(adminActions.getAllUsers.getAllUsersRequest());
     if(tab === 'qlhd') dispatch(adminActions.getBills.getBillsRequest());
+    if(tab === 'hd' && user?.customerCode) dispatch(userActions.getBills.getBillsRequest(user?.customerCode));
+    if(tab === 'info' && user?.customerCode) dispatch(userActions.fetchCustomer.fetchCustomerRequest(user?.customerCode));
   }, [tab, dispatch]);
 
   return (
@@ -149,7 +151,7 @@ export default function Home() {
               ))
             : userTabList.map((elm, ind) => (
                 <TabPanel key={ind} value={elm.value}>
-                  Item One
+                  {elm.page}
                 </TabPanel>
               ))}
         </TabContext>

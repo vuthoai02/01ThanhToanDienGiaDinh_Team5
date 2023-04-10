@@ -1,5 +1,10 @@
 export const INIT_STATE = {
-    user: null,
+    user: {
+        info: null,
+        bills: [],
+        infoCus: null,
+        detail: null,
+    },
     admin: {
         customers: [],
         users: [],

@@ -15,7 +15,7 @@ import {
 import {Bolt} from '@mui/icons-material'
 
 export default function Login() {
-  const user = useSelector(userState$);
+  const user = useSelector(userState$)?.info;
   const [values, setValues] = React.useState({
     email: "",
     password: "",

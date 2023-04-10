@@ -10,6 +10,7 @@ export const fetchUserById = (payload) =>
   });
 export const createUser = (payload) =>
   axios.post(`${URL}/users/register`, payload);
+export const fetchCustomer = (payload) => axios.get(`${URL}/customer`, {params: {customerCode: payload}});
 
 /*==================ADMIN========================*/
 export const createCustomer = (payload) =>
@@ -26,3 +27,5 @@ export const deleteUser = (payload) => axios.post(`${URL}/admin/delete-user`, { 
 export const createBill = (payload) => axios.post(`${URL}/admin/create-bill`, payload);
 export const getBills = () => axios.get(`${URL}/admin/get-bills`);
 export const deleteBill = (payload) => axios.post(`${URL}/admin/delete-bill`, payload);
+export const updateCustomerCode = (payload) => axios.put(`${URL}/users/update-customer-code`,payload);
+export const getBillsByCode = (payload) => axios.get(`${URL}/customer/get-bills`, { customerCode: payload });

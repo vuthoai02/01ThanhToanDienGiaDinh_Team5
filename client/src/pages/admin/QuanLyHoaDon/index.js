@@ -106,7 +106,7 @@ export default function QuanLyHoaDon() {
   }, [bills]);
   //render
   return (
-    <Grid>
+    <Grid item container>
       <Box
         sx={{
           width: "100%",

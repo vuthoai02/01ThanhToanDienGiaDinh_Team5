@@ -1,10 +1,10 @@
 import express from 'express';
-import { getCustomer, getBill, payment } from '../controllers/customerControllers.js';
+import { getCustomer, getBillsByCustomerCode,payment } from '../controllers/customerControllers.js';
 
 const router = express.Router();
 
 router.get('/', getCustomer);
-router.get('/get-bill', getBill);
+router.get('/get-bills', getBillsByCustomerCode);
 router.put('/payment', payment);
 
 export default router;
