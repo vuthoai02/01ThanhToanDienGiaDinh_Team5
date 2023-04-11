@@ -10,16 +10,16 @@ Hoàn thành giao diện người dùng và triển khai thực hiện test plan
 
 ## Phan Thị Thùy Linh
 ### Tuần trước thực hiện
-Viết testplan cho sản phẩm
+Mô tả lịch trình công việc và xác định yêu cầu tài nguyên
 ### Khó khăn gặp phải
-Không có
+Hiện tại chưa có
 ### Dự định tuần tới
 Triển khai thực hiện test plan.
 
 ## Trịnh Hồng Nhung
 ### Tuần trước thực hiện
-Viết testplan cho sản phẩm
+Xác định phạm vi mục đích và tìm tài liệu tham khảo
 ### Khó khăn gặp phải
-Không có
+Hiện tại chưa có
 ### Dự định tuần tới
 Triển khai thực hiện test plan.
