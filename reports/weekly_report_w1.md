@@ -12,7 +12,7 @@ Hoàn thành giao diện người dùng và triển khai thực hiện test plan
 ### Tuần trước thực hiện
 Mô tả lịch trình công việc và xác định yêu cầu tài nguyên
 ### Khó khăn gặp phải
-Hiện tại chưa có
+Xác định thời gian hoàn thành công việc
 ### Dự định tuần tới
 Triển khai thực hiện test plan.
 
