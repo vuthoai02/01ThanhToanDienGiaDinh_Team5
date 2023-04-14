@@ -34,10 +34,10 @@ export const columns = [
     label: "Thao tác",
     minWidth: 100,
     align: "center",
-    render: ({handleDelete, row}) => {
+    render: ({handleDelete, row, functional}) => {
       return (
         <Box>
-          <IconButton>
+          <IconButton onClick={() => functional(row)}>
             <Visibility color="primary" titleAccess="Thông tin chi tiết" />
           </IconButton>
           <IconButton onClick={() => handleDelete(row)}>

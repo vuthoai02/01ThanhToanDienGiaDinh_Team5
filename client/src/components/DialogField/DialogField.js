@@ -9,7 +9,16 @@ import {
 import CustomField from "../Field/TextField";
 
 export default function DialogField(props) {
-  const { open, handleClose, formList, handleChange, handleSubmit, title } = props;
+  const {
+    open,
+    handleClose,
+    formList,
+    handleChange,
+    handleSubmit,
+    title,
+    isEmpty,
+    isEditing
+  } = props;
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
@@ -25,12 +34,17 @@ export default function DialogField(props) {
             required={elm.required}
             isForm={true}
             handleChange={handleChange}
+            isEmpty={isEmpty}
           />
         ))}
       </DialogContent>
       <DialogActions>
-        <Button color="error" onClick={handleClose}>Hủy</Button>
-        <Button variant="contained" color="success" onClick={handleSubmit}>Lưu</Button>
+        <Button color="error" onClick={handleClose}>
+          Hủy
+        </Button>
+        <Button variant="contained" color="success" onClick={handleSubmit}>
+          {isEditing?'Lưu thay đổi':'Lưu thông tin'}
+        </Button>
       </DialogActions>
     </Dialog>
   );

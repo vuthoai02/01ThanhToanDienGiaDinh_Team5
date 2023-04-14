@@ -2,16 +2,18 @@ import { UserModel } from "../models/UserModel.js";
 import { CustomerModel } from "../models/CustomerModel.js";
 
 export const changePassword = async (req, res) => {
-  const userId = req.userId;
-  const newPassword = req.query.newPassword;
+  const {userId, password} = req.body;
   try {
-    const user = await UserModel.findById(userId);
-    if (user) {
-      await user.updateOne({ ...user, password: newPassword });
-      res.status(200).json({ success: true, message: "Cập nhật thành công" });
-    }
+    // const user = await UserModel.findById(userId);
+    // console.log(user)
+    // if (user) {
+    //   await user.updateOne({ ...user, password: password });
+    //   res.status(200).json({ success: true, message: "Cập nhật thành công" });
+    // }
+    await UserModel.updateOne({userId}, {$set: {'password': password}});
+    res.status(200).json({ success: true, message: "Cập nhật thành công" });
   } catch (error) {
-    console.log(err);
+    console.log(error)
     res.status(400).json({ success: false, message: "Bạn chưa đăng nhập!" });
   }
 };
@@ -20,7 +22,7 @@ export const getUser = async (req, res) => {
   const userId = req.userId;
   try {
     const user = await UserModel.findById(userId).select("-password");
-    return res.json({
+    return res.status(200).json({
       success: true,
       message: "Lấy thông tin thành công",
       data: user,
@@ -33,20 +35,17 @@ export const getUser = async (req, res) => {
 
 export const getUserByEmail = async (req, res) => {
   const email = req.query.email;
-  if (email) {
-    try {
-      const user = await UserModel.findOne({ email: email });
-      return res.json({
-        success: true,
-        message: "Lấy thông tin thành công",
-        data: user,
-      });
-    } catch (error) {
-      console.log(err);
-      res
-        .status(400)
-        .json({ success: false, message: "Không tìm thấy người dùng này!" });
-    }
+  try {
+    const user = await UserModel.findOne({ email: email });
+    return res.status(200).json({
+      success: true,
+      message: "Lấy thông tin thành công",
+      data: user,
+    });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Không tìm thấy người dùng này!" });
   }
 };
 
@@ -69,3 +68,4 @@ export const updateCustomerCode = async (req, res) => {
       .json({ success: false, message: "Cập nhật không thành công!" });
   }
 };
+

@@ -1,4 +1,4 @@
-import { createActions } from "redux-actions";
+import { createActions, createAction } from "redux-actions";
 export const getType = (reduxAction) => {
   return reduxAction().type;
 };
@@ -34,7 +34,7 @@ export const getAllUsers = createActions({
 });
 
 export const getUser = createActions({
-  getUserRequest: undefined,
+  getUserRequest: (payload) => payload,
   getUserSuccess: (payload) => payload,
   getUserFailure: (err) => err,
 });
@@ -68,3 +68,24 @@ export const deleteBill = createActions({
   deleteBillSuccess: undefined,
   deleteBillFailure: (err) => err,
 });
+
+export const getBillsByCode = createActions({
+  getBillsByCodeRequest: payload => payload,
+  getBillsByCodeSuccess: payload => payload,
+  getBillsByCodeFailure: err => err
+});
+
+export const updateCustomer = createActions({
+  updateCustomerRequest: payload => payload,
+  updateCustomerSuccess: payload => payload,
+  updateCustomerFailure: err => err,
+});
+
+export const updateBill = createActions({
+  updateBillRequest: payload => payload,
+  updateBillSuccess: payload => payload,
+  updateBillFailure: err => err,
+});
+
+export const paid = createAction("paid");
+export const payment = createAction('payment');

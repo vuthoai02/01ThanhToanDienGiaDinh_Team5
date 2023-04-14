@@ -8,7 +8,11 @@ import {
   updateCusCode,
   getBills,
   fetchCustomer,
-  showBill
+  showBill,
+  changePassword,
+  paid,
+  payment,
+  pay,
 } from "../actions/userActions";
 
 export default function userReducers(state = INIT_STATE.user, action) {
@@ -29,19 +33,45 @@ export default function userReducers(state = INIT_STATE.user, action) {
     case getType(fetchCustomer.fetchCustomerFailure):
     case getType(showBill.showBillRequest):
     case getType(showBill.showBillFailure):
+    case getType(changePassword.changePasswordRequest):
+    case getType(changePassword.changePasswordFailure):
+    case getType(changePassword.changePasswordSuccess):
+    case getType(pay.payRequest):
+    case getType(pay.payFailure):
       return state;
     case getType(getUserById.getUserByIdSuccess):
-      return {...state, info: action.payload};
+      return { ...state, info: action.payload };
     case getType(updateCusCode.updateCusCodeSuccess):
-      return {...state, info: {...state.info, customerCode: action.payload}};
+      return {
+        ...state,
+        info: { ...state.info, customerCode: action.payload },
+      };
     case getType(getBills.getBillsSuccess):
-      return {...state, bills: action.payload};
+      return { ...state, bills: action.payload };
     case getType(fetchCustomer.fetchCustomerSuccess):
-      return {...state, infoCus: action.payload};
+      return { ...state, infoCus: action.payload };
     case getType(showBill.showBillSuccess):
-      return {...state, detail: action.payload};
+      return { ...state, detail: action.payload };
+    case getType(paid):
+      return {
+        ...state,
+        bills: state.bills.filter((elm) => elm.isPayment === true),
+      };
+    case getType(payment):
+      return {
+        ...state,
+        bills: state.bills.filter((elm) => elm.isPayment === false),
+      };
     case getType(logout):
       return null;
+    case getType(pay.paySuccess):
+      return {
+        ...state,
+        bills: [
+          ...state.bills.filter((elm) => elm._id !== action.payload._id),
+          action.payload,
+        ],
+      };
     default:
       return state;
   }

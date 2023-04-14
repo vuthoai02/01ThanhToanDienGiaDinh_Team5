@@ -20,9 +20,15 @@ export const getCustomer = async (req, res) => {
 };
 
 export const getBillsByCustomerCode= async (req, res) => {
-  const customerCode = req.body.customerCode;
+  const customerCode = req.query.customerCode;
   try {
     const bills = await BillModel.find({ customerCode: customerCode });
+    if(bills.length === 0){
+      return res.status(400).json({
+        success: false,
+        message: "Không có mã người dùng này",
+      });
+    }
     return res.status(200).json({
       success: true,
       message: "Lấy thông tin thành công",
@@ -36,25 +42,9 @@ export const getBillsByCustomerCode= async (req, res) => {
 };
 
 export const payment = async (req, res) => {
-  const { customerCode, invoiceId } = req.query.data;
   try {
-    const customer = await CustomerModel.findOne(customerCode);
-    if (customer) {
-      const bill = customer.electricityList.filter(
-        (elm) => elm.invoiceId == invoiceId
-      )[0];
-      const newStateBill = { ...bill, isPayment: true };
-      await customer.updateOne({
-        ...customer,
-        electricityList: [
-          ...customer.electricityList.filter(
-            (elm) => elm.invoiceId != invoiceId
-          ),
-          newStateBill,
-        ],
-      });
+      await BillModel.findByIdAndUpdate(req.body.id, {isPayment: true});
       res.status(200).json({ success: true, message: "Thanh toán thành công" });
-    }
   } catch (error) {
     console.log(err);
     res

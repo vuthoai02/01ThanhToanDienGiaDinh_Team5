@@ -45,6 +45,20 @@ export const showBill = createActions({
   showBillRequest: payload => payload,
   showBillSuccess: payload => payload,
   showBillFailure: err => err
-})
+});
 
+export const changePassword = createActions({
+  changePasswordRequest: payload => payload,
+  changePasswordSuccess: payload => payload,
+  changePasswordFailure: err => err,
+});
+
+export const pay = createActions({
+  payRequest: payload => payload,
+  paySuccess: payload => payload,
+  payFailure: err => err
+});
+
+export const paid = createAction("paid");
+export const payment = createAction('payment');
 export const logout = createAction("LOGOUT");

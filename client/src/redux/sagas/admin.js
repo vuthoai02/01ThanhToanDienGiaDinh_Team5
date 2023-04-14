@@ -47,6 +47,17 @@ export function* deleteCustomerSaga(action){
     }
 }
 
+export function* updateCustomerSaga(action){
+    try {
+        const customer = yield call(api.updateCustomer,action.payload);
+        yield put(adminActions.updateCustomer.updateCustomerSuccess(customer.data.data));
+        NotificationManager.success("", customer.data.message, 3000);
+    } catch (error) {
+        NotificationManager.error("", error.response.data.message,3000);
+        yield put(adminActions.updateCustomer.updateCustomerFailure(error));
+    }
+}
+
 /*===============HANDLE USERS=================*/
 export function* getAllUsersSaga(action){
     try {
@@ -89,6 +100,8 @@ export function* deleteUserSaga(action){
     }
 }
 
+/*=================HANDLE BILLS=============*/
+
 export function* createBillSaga(action){
     try {
         const bill = yield call(api.createBill,action.payload);
@@ -118,5 +131,27 @@ export function* deleteBillSaga(action){
     } catch (error) {
         NotificationManager.error("", error.response.data.message,3000);
         yield put(adminActions.deleteBill.deleteBillFailure(error));
+    }
+}
+
+export function* getBillsByCodeSaga(action){
+    try {
+        const bills = yield call(api.getBillsByCode, action.payload);
+        yield put(adminActions.getBillsByCode.getBillsByCodeSuccess(bills.data?.data))
+    } catch (error) {
+        console.log(error);
+        NotificationManager.error("", error.response.data?.message,3000);
+        yield put(adminActions.getBillsByCode.getBillsByCodeFailure(error));
+    }
+}
+
+export function* updateBillSaga(action){
+    try {
+        const bill = yield call(api.updateBill, action.payload);
+        yield put(adminActions.updateBill.updateBillSuccess(bill.data.data));
+        NotificationManager.success("",bill.data.message,3000);
+    } catch (error) {
+        NotificationManager.error("", error.response.data?.message,3000);
+        yield put(adminActions.updateBill.updateBillFailure(error));
     }
 }

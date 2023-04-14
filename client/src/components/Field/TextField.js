@@ -6,12 +6,23 @@ import {
   Input,
   InputAdornment,
   IconButton,
-  TextField
+  TextField,
+  FormHelperText,
 } from "@mui/material";
-import {Visibility, VisibilityOff} from '@mui/icons-material';
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function CustomField(props) {
-  const { name, label, width, value, type, required, handleChange,isForm } = props;
+  const {
+    name,
+    label,
+    width,
+    value,
+    type,
+    required,
+    handleChange,
+    isForm,
+    isEmpty,
+  } = props;
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -29,6 +40,8 @@ export default function CustomField(props) {
           value={value}
           onChange={handleChange}
           fullWidth
+          error={isEmpty === name ? true : false}
+          helperText={isEmpty === name && "Không được để trống!"}
         />
       </Grid>
     );
@@ -43,13 +56,21 @@ export default function CustomField(props) {
         }}
         variant="outlined"
       >
-        <InputLabel shrink htmlFor="password" required={required} sx={{marginLeft: '-12px'}}>{label}</InputLabel>
+        <InputLabel
+          shrink
+          htmlFor="password"
+          required={required}
+          sx={{ marginLeft: "-12px" }}
+        >
+          {label}
+        </InputLabel>
         <Input
           id="password"
           type={showPassword ? "text" : "password"}
           value={value}
           name={name}
           onChange={handleChange}
+          error={isEmpty === name ? true : false}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -63,6 +84,11 @@ export default function CustomField(props) {
             </InputAdornment>
           }
         />
+        {isEmpty === name && (
+          <FormHelperText style={{ color: "red" }}>
+            Khồng được để trống!
+          </FormHelperText>
+        )}
       </FormControl>
     );
   }
@@ -73,12 +99,13 @@ export default function CustomField(props) {
         label={label}
         InputLabelProps={{ shrink: true, required }}
         type={type}
-        variant={isForm?"outlined":"standard"}
+        variant={isForm ? "outlined" : "standard"}
         value={value}
         onChange={handleChange}
         fullWidth
+        error={isEmpty === name ? true : false}
+        helperText={isEmpty === name && "Không được để trống!"}
       />
     </Grid>
   );
 }
-

@@ -8,7 +8,9 @@ import {
   updateCusCode,
   fetchBillsSaga,
   fetchCustomerSaga,
-  showBillSaga
+  showBillSaga,
+  changePasswordSaga,
+  paySaga
 } from "./users.js";
 import {
   createCustomerSaga,
@@ -22,6 +24,9 @@ import {
   createBillSaga,
   getBillsSaga,
   deleteBillSaga,
+  getBillsByCodeSaga,
+  updateCustomerSaga,
+  updateBillSaga
 } from "./admin.js";
 function* mySaga() {
   /*============USER==================*/
@@ -38,6 +43,8 @@ function* mySaga() {
   yield takeLatest(userActions.getBills.getBillsRequest, fetchBillsSaga);
   yield takeLatest(userActions.fetchCustomer.fetchCustomerRequest, fetchCustomerSaga);
   yield takeLatest(userActions.showBill.showBillRequest, showBillSaga);
+  yield takeLatest(userActions.changePassword.changePasswordRequest, changePasswordSaga);
+  yield takeLatest(userActions.pay.payRequest,paySaga);
   /*=============ADMIN===============*/
   yield takeLatest(
     adminActions.createCustomer.createCustomerRequest,
@@ -65,6 +72,9 @@ function* mySaga() {
   yield takeLatest(adminActions.createBill.createBillRequest, createBillSaga);
   yield takeLatest(adminActions.getBills.getBillsRequest, getBillsSaga);
   yield takeLatest(adminActions.deleteBill.deleteBillRequest, deleteBillSaga);
+  yield takeLatest(adminActions.getBillsByCode.getBillsByCodeRequest, getBillsByCodeSaga);
+  yield takeLatest(adminActions.updateCustomer.updateCustomerRequest, updateCustomerSaga);
+  yield takeLatest(adminActions.updateBill.updateBillRequest, updateBillSaga);
 }
 
 export default mySaga;

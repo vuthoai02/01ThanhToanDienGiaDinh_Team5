@@ -7,6 +7,11 @@ import {
   Menu,
   MenuItem,
   Tab,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  TextField,
+  DialogTitle,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -22,8 +27,14 @@ export default function Home() {
   const user = useSelector(userState$)?.info;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const [tab, setTab] = React.useState('');
+  const [tab, setTab] = React.useState("");
   const dispatch = useDispatch();
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [newPassword, setPassword] = React.useState({
+    password: "",
+    repeatPassword: "",
+  });
+  const [isError, setError] = React.useState(true);
 
   //Function
   const handleChangeTab = (event, newValue) => {
@@ -38,6 +49,41 @@ export default function Home() {
   const handleLogout = () => {
     localStorage.removeItem("user");
     dispatch(userActions.logout());
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(!openDialog);
+  };
+
+  const handleChange = (event) => {
+    if (event.target)
+      setPassword({ ...newPassword, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = () => {
+    for (var key in newPassword) {
+      if (newPassword[key] === "") {
+        setError({ key, text: "Không được để trống!" });
+        break;
+      } else {
+        setError(false);
+      }
+    }
+    if (!isError) {
+      if (newPassword.password !== newPassword.repeatPassword) {
+        setError({
+          key: "repeatPassword",
+          text: "Mật khẩu nhập lại không trùng khớp",
+        });
+      } else {
+        dispatch(userActions.changePassword.changePasswordRequest({userId: user?._id, password: newPassword.password}));
+        setPassword({
+          password: "",
+          repeatPassword: "",
+        });
+        handleOpenDialog();
+      }
+    }
   };
 
   //useEffect
@@ -58,11 +104,15 @@ export default function Home() {
   }, [user]);
 
   React.useEffect(() => {
-    if(tab === 'qlkh') dispatch(adminActions.getCustomer.getCustomerRequest());
-    if(tab === 'qlu') dispatch(adminActions.getAllUsers.getAllUsersRequest());
-    if(tab === 'qlhd') dispatch(adminActions.getBills.getBillsRequest());
-    if(tab === 'hd' && user?.customerCode) dispatch(userActions.getBills.getBillsRequest(user?.customerCode));
-    if(tab === 'info' && user?.customerCode) dispatch(userActions.fetchCustomer.fetchCustomerRequest(user?.customerCode));
+    if (tab === "qlkh") dispatch(adminActions.getCustomer.getCustomerRequest());
+    if (tab === "qlu") dispatch(adminActions.getAllUsers.getAllUsersRequest());
+    if (tab === "qlhd") dispatch(adminActions.getBills.getBillsRequest());
+    if (tab === "hd" && user?.customerCode)
+      dispatch(userActions.getBills.getBillsRequest(user?.customerCode));
+    if (tab === "info" && user?.customerCode)
+      dispatch(
+        userActions.fetchCustomer.fetchCustomerRequest(user?.customerCode)
+      );
   }, [tab, dispatch]);
 
   return (
@@ -107,7 +157,7 @@ export default function Home() {
             "aria-labelledby": "icon-menu",
           }}
         >
-          <MenuItem onClick={handleClose}>Thay đổi mật khẩu</MenuItem>
+          <MenuItem onClick={handleOpenDialog}>Thay đổi mật khẩu</MenuItem>
           <MenuItem onClick={handleLogout} sx={{ color: "red" }}>
             Đăng xuất
           </MenuItem>
@@ -156,6 +206,42 @@ export default function Home() {
               ))}
         </TabContext>
       </Box>
+      <Dialog open={openDialog} onClose={handleOpenDialog}>
+        <DialogTitle>Thay đổi mật khẩu</DialogTitle>
+        <DialogContent>
+          <TextField
+            type="password"
+            name="password"
+            label="Mật khẩu mới"
+            variant="outlined"
+            value={newPassword?.password}
+            onChange={handleChange}
+            fullWidth
+            sx={{ margin: "10px 0" }}
+            error={isError?.key === "password" ? true : false}
+            helperText={isError?.key === "password" && isError?.text}
+          />
+          <TextField
+            type="password"
+            name="repeatPassword"
+            label="Nhập lại mật khẩu"
+            variant="outlined"
+            value={newPassword?.repeatPassword}
+            onChange={handleChange}
+            fullWidth
+            error={isError?.key === "repeatPassword" ? true : false}
+            helperText={isError?.key === "repeatPassword" && isError?.text}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleOpenDialog} color="error">
+            Hủy
+          </Button>
+          <Button variant="contained" onClick={handleSubmit}>
+            Lưu thay đổi
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 }

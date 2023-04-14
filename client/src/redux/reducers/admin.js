@@ -11,7 +11,12 @@ import {
   delelteUser,
   createBill,
   getBills,
-  deleteBill
+  deleteBill,
+  getBillsByCode,
+  updateCustomer,
+  updateBill,
+  paid,
+  payment
 } from "../actions/adminActions";
 
 export default function adminReducers(state = INIT_STATE.admin, action) {
@@ -39,6 +44,12 @@ export default function adminReducers(state = INIT_STATE.admin, action) {
     case getType(getBills.getBillsFailure):
     case getType(deleteBill.deleteBillRequest):
     case getType(deleteBill.deleteBillFailure):
+    case getType(getBillsByCode.getBillsByCodeRequest):
+    case getType(getBillsByCode.getBillsByCodeFailure):
+    case getType(updateCustomer.updateCustomerRequest):
+    case getType(updateCustomer.updateCustomerFailure):
+    case getType(updateBill.updateBillRequest):
+    case getType(updateBill.updateBillFailure):
       return state;
     case getType(createCustomer.createCustomerSuccess):
       return { ...state, customers: [...state.customers, action.payload] };
@@ -64,11 +75,44 @@ export default function adminReducers(state = INIT_STATE.admin, action) {
         users: state.users.filter((elm) => elm?.id !== action.payload.id),
       };
     case getType(createBill.createBillSuccess):
-      return {...state, bills: [...state.bills, action.payload]};
+      return { ...state, bills: [...state.bills, action.payload] };
     case getType(getBills.getBillsSuccess):
-      return {...state, bills: action.payload};
+      return { ...state, bills: action.payload };
     case getType(deleteBill.deleteBillSuccess):
-      return {...state, bills: [...state.bills.filter(elm => elm._id !== action.payload._id)]};
+      return {
+        ...state,
+        bills: [...state.bills.filter((elm) => elm._id !== action.payload._id)],
+      };
+    case getType(getBillsByCode.getBillsByCodeSuccess):
+      return { ...state, bills: action.payload };
+    case getType(updateCustomer.updateCustomerSuccess):
+      return {
+        ...state,
+        customers: [
+          ...state.customers.filter(
+            (elm) => elm.customerCode !== action.payload.customerCode
+          ),
+          action.payload,
+        ],
+      };
+    case getType(updateBill.updateBillSuccess):
+      return {
+        ...state,
+        bills: [
+          ...state.bills.filter((elm) => elm._id !== action.payload._id),
+          action.payload,
+        ],
+      };
+    case getType(paid):
+      return {
+        ...state,
+        bills: state.bills.filter(elm => elm.isPayment === true)
+      };
+      case getType(payment):
+      return {
+        ...state,
+        bills: state.bills.filter(elm => elm.isPayment === false)
+      };
     default:
       return state;
   }

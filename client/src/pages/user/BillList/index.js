@@ -101,8 +101,8 @@ export default function BillList() {
                 "aria-labelledby": "filter-menu",
               }}
             >
-              <MenuItem>Hóa đơn chưa thanh toán</MenuItem>
-              <MenuItem>Hóa đơn đã thanh toán</MenuItem>
+              <MenuItem onClick={() => dispatch(userActions.payment())}>Hóa đơn chưa thanh toán</MenuItem>
+              <MenuItem onClick={() => dispatch(userActions.paid())}>Hóa đơn đã thanh toán</MenuItem>
             </Menu>
           </Box>
           <TableComponent columns={columns} rows={bills} functional={handleShow} />

@@ -37,8 +37,8 @@ export const getAllCustomers = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     await UserModel.deleteOne({ id: req.query.id })
-    .then(() => console.log("Success"))
-    .catch((err) => console.log(err));
+      .then(() => console.log("Success"))
+      .catch((err) => console.log(err));
     return res.status(200).json({
       success: true,
       message: "Xóa thành công!",
@@ -94,7 +94,7 @@ export const createCustomer = async (req, res) => {
 
 export const deleteBill = async (req, res) => {
   try {
-    BillModel.deleteOne({ id: req.body.id})
+    BillModel.deleteOne({ id: req.body.id })
       .then(() => console.log("Success"))
       .catch((err) => console.log(err));
     return res.status(200).json({
@@ -108,32 +108,29 @@ export const deleteBill = async (req, res) => {
 };
 
 export const upadteBill = async (req, res) => {
-  const { customerCode, invoiceId, newbill } = req.query.data;
+  const bill = req.body;
+  if (!bill) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Cập nhật không thành công!" });
+  }
   try {
-    const customer = await CustomerModel.findOne(customerCode);
-    if (customer) {
-      await customer.updateOne({
-        ...customer,
-        electricityList: [
-          ...customer.electricityList.filter(
-            (elm) => elm.invoiceId != invoiceId
-          ),
-          newbill,
-        ],
-      });
-      res.status(200).json({ success: true, message: "Thanh toán thành công" });
+    const existBill = await BillModel.findOne({id: bill.id});
+    if (existBill) {
+      await BillModel.findOneAndUpdate(bill);
+      res.status(200).json({ success: true, message: "Cập nhật thành công!", data: bill });
     }
   } catch (error) {
     console.log(err);
     res
       .status(400)
-      .json({ success: false, message: "Thanh toán không thành công!" });
+      .json({ success: false, message: "Cập nhật không thành công!" });
   }
 };
 
 export const updateCustomer = async (req, res) => {
   const customer = req.body;
-  if (customer) {
+  if (!customer) {
     return res
       .status(400)
       .json({ success: false, message: "Cập nhật không thành công!" });
@@ -144,7 +141,13 @@ export const updateCustomer = async (req, res) => {
     });
     if (existCustomer) {
       await CustomerModel.findOneAndUpdate(customer);
-      res.status(200).json({ success: true, message: "Cập nhật thành công!" });
+      res
+        .status(200)
+        .json({
+          success: true,
+          message: "Cập nhật thành công!",
+          data: customer,
+        });
     }
   } catch (error) {
     res
@@ -165,7 +168,7 @@ export const changeAuth = async (req, res) => {
   }
 };
 
-export const createBill = async (req,res) => {
+export const createBill = async (req, res) => {
   const bill = req.body;
   if (!bill) {
     return res
@@ -174,13 +177,18 @@ export const createBill = async (req,res) => {
   }
   try {
     const existBill = await BillModel.findOne({
-      signinDate: bill.signinDate
+      signinDate: bill.signinDate,
     });
-    const customer = await CustomerModel.findOne({customerCode: bill.customerCode})
+    const customer = await CustomerModel.findOne({
+      customerCode: bill.customerCode,
+    });
     if (existBill || !customer) {
-      return res
-        .status(400)
-        .json({ success: false, message: !customer?'Mã khách hàng không đúng!':"Hóa đơn đã tồn tại!" });
+      return res.status(400).json({
+        success: false,
+        message: !customer
+          ? "Mã khách hàng không đúng!"
+          : "Hóa đơn đã tồn tại!",
+      });
     }
     const newBill = new BillModel(bill);
     newBill.save();
@@ -192,9 +200,9 @@ export const createBill = async (req,res) => {
     console.log(err);
     res.status(400).json({ success: false, message: "Không thành công!" });
   }
-}
+};
 
-export const getBills = async (req,res) => {
+export const getBills = async (req, res) => {
   try {
     const bills = await BillModel.find();
     return res.status(200).json({
@@ -208,5 +216,4 @@ export const getBills = async (req,res) => {
       .status(400)
       .json({ success: false, message: "Lấy thông tin không thành công!" });
   }
-}
-
+};

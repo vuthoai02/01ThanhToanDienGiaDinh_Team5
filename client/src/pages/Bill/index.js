@@ -6,20 +6,28 @@ import { userState$ } from "../../redux/selector";
 import * as userActions from "../../redux/actions/userActions";
 import { Bolt, MonetizationOn, Print } from "@mui/icons-material";
 import ReactToPrint from "react-to-print";
+import { useNavigate } from "react-router-dom";
 
 export default function BillDetail(props) {
   const { detail, infoCus } = useSelector(userState$);
   const dispatch = useDispatch();
   const componentRef = React.useRef();
+  const navigate = useNavigate();
   const billForm = [
     { label: "Họ tên:", value: infoCus?.customerName },
     { label: "Mã khách hàng:", value: infoCus?.customerCode },
+    { label: "Mã hóa đơn:", value: detail?._id },
     { label: "Số điện thoại:", value: infoCus?.phoneNumber },
     { label: "Địa chỉ:", value: infoCus?.address },
     { label: "Số công tơ:", value: infoCus?.meterSeries },
     { label: "Mã số thuế:", value: infoCus?.taxCode },
     { label: "Số hộ sử dụng điện:", value: 1 },
   ];
+
+  const handlePayment = () => {
+    dispatch(userActions.pay.payRequest(detail));
+    navigate('/');
+  };
 
   useEffect(() => {
     if (!infoCus)
@@ -86,6 +94,7 @@ export default function BillDetail(props) {
               variant="contained"
               sx={{ marginRight: "10px" }}
               color="success"
+              onClick={handlePayment}
               disabled={detail?.isPayment}
             >
               Thanh toán

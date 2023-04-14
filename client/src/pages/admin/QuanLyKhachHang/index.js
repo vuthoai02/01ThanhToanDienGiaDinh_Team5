@@ -22,6 +22,7 @@ import {
   searchCustomer,
   getCustomer,
   deleteCustomer,
+  updateCustomer
 } from "../../../redux/actions/adminActions";
 
 import TableComponent from "../../../components/Table/Table";
@@ -38,7 +39,7 @@ export default function QuanLyKH() {
     meterSeries: "",
     houseHold: 1,
     paymentCode: "",
-    businessCode: "",
+    businessCode: "100%*2320-KDDV-A",
     teamCode: 1,
     stationCode: "",
     voltage: 1,
@@ -51,8 +52,9 @@ export default function QuanLyKH() {
   const [open, setOpen] = React.useState(false);
   const [isLoad, setLoad] = React.useState(true);
   const dispatch = useDispatch();
-  const [detail,setDetail] = React.useState(null);
-  const formList = form(detail? detail:values);
+  const formList = form(values);
+  const [isEditing,setEditing] = React.useState(false);
+  const [isEmpty,setEmpty] = React.useState(true);
 
   //Function
   const handleClickOpen = () => {
@@ -60,7 +62,8 @@ export default function QuanLyKH() {
   };
 
   const handleShow = (row) => {
-    setDetail(row);
+    setValues(row);
+    setEditing(true);
     setOpen(true);
   }
 
@@ -88,24 +91,38 @@ export default function QuanLyKH() {
   };
 
   const handleSubmit = () => {
-    dispatch(createCustomer.createCustomerRequest(values));
-    setValues({
-      customerCode: "",
-      customerName: "",
-      phoneNumber: "",
-      address: "",
-      meterSeries: "",
-      houseHold: 1,
-      paymentCode: "",
-      businessCode: "",
-      teamCode: 1,
-      stationCode: "",
-      voltage: 1,
-      indicatorRecordDate: 28,
-      businessChargeCode: "",
-      taxCode: "",
-    });
-    handleClose();
+    for(var key in values){
+      if(values[key] === ""){
+        setEmpty(key);
+        break
+      } else {
+        setEmpty(false);
+      }
+    }
+    if(!isEmpty) {
+      if(isEditing){
+        dispatch(updateCustomer.updateCustomerRequest(values));
+      } else {
+        dispatch(createCustomer.createCustomerRequest(values));
+      }
+      setValues({
+        customerCode: "",
+        customerName: "",
+        phoneNumber: "",
+        address: "",
+        meterSeries: "",
+        houseHold: 1,
+        paymentCode: "",
+        businessCode: "",
+        teamCode: 1,
+        stationCode: "",
+        voltage: 1,
+        indicatorRecordDate: 28,
+        businessChargeCode: "100%*2320-KDDV-A",
+        taxCode: "",
+      });
+      handleClose();
+    }
   };
 
   const handleDelete = (row) => {
@@ -194,6 +211,8 @@ export default function QuanLyKH() {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         title="Thêm thông tin khách hàng"
+        isEmpty={isEmpty}
+        isEditing={isEditing}
       />
     </Grid>
   );

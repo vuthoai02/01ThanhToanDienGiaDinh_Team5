@@ -10,7 +10,7 @@ router.get("/", verifyToken, getUser);
 
 router.post('/login',login);
 router.post('/register', register);
-router.put('change-password', changePassword);
+router.put('/change-password', changePassword);
 router.put('/update-customer-code', updateCustomerCode);
 
 export default router;

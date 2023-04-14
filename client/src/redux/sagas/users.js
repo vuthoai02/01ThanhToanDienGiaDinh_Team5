@@ -83,3 +83,25 @@ export function* showBillSaga(action){
     yield put(userActions.showBill.showBillFailure(error));
   }
 }
+
+export function* changePasswordSaga(action){
+  try {
+    const newPass = yield call(api.changePassword,action.payload);
+    yield put(userActions.changePassword.changePasswordSuccess());
+    NotificationManager.success("",newPass.data.message,3000);
+  } catch (error) {
+    NotificationManager.error("", error.response.data.message, 3000);
+    yield put(userActions.changePassword.changePasswordFailure(error));
+  }
+}
+
+export function* paySaga(action){
+  try {
+    const pay = yield call(api.payment, {id: action.payload?._id});
+    yield put(userActions.pay.paySuccess(action.payload));
+    NotificationManager.success("",pay.data.message,3000);
+  } catch (error) {
+    NotificationManager.error("", error.response.data.message, 3000);
+    yield put(userActions.pay.payFailure(error)); 
+  }
+}

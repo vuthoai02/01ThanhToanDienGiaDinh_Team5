@@ -22,6 +22,5 @@ router.post('/create-bill', adminControllers.createBill);
 router.get('/get-bills',adminControllers.getBills);
 router.post('/delete-bill',adminControllers.deleteBill);
 
-
 export default router;
 

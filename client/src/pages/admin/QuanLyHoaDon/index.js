@@ -11,13 +11,19 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { Search, Replay, Add, DragIndicator, DesktopAccessDisabled } from "@mui/icons-material";
+import {
+  Search,
+  Replay,
+  Add,
+  DragIndicator,
+  DesktopAccessDisabled,
+} from "@mui/icons-material";
 import * as adminActions from "../../../redux/actions/adminActions";
 import { useDispatch, useSelector } from "react-redux";
 import DialogField from "../../../components/DialogField/DialogField";
 import TableComponent from "../../../components/Table/Table";
 
-import { adminState$ } from '../../../redux/selector';
+import { adminState$ } from "../../../redux/selector";
 import { form, columns } from "./constant";
 
 export default function QuanLyHoaDon() {
@@ -41,15 +47,24 @@ export default function QuanLyHoaDon() {
   });
   const formList = form(values);
   const bills = useSelector(adminState$).bills;
-  const [isLoad,setLoad] = React.useState(false);
+  const [isLoad, setLoad] = React.useState(false);
+  const [isEmpty, setEmpty] = React.useState(true);
+  const [isEditing, setEditing] = React.useState(false);
   //Functional
   const handleChangeSearch = (event) => {
-    if (event.target) setSearchValue({ email: event.target.value });
+    if (event.target) setSearchValue({ customerCode: event.target.value });
   };
 
   const handleSearch = () => {
-    if (searchValue) dispatch(adminActions.getUser.getUserRequest(searchValue));
+    if (searchValue)
+      dispatch(adminActions.getBillsByCode.getBillsByCodeRequest(searchValue));
     setSearchValue(null);
+  };
+
+  const handleShow = (row) => {
+    setValues(row);
+    setEditing(true);
+    setOpenDialog(true);
   };
 
   const handleClick = (event) => {
@@ -79,25 +94,41 @@ export default function QuanLyHoaDon() {
   };
 
   const handleSubmit = () => {
-    dispatch(adminActions.createBill.createBillRequest(values));
-    setValues({
-      customerCode: "",
-      newIndicator: 0,
-      oldIndicator: 0,
-      hs: 1,
-      dntructiep: 0,
-      actualElectric: 0,
-      unitPrice: 0,
-      VATRate: 10,
-      signinDate: "",
-      isPayment: false,
-    });
-    handleCloseDialog();
+    for (var key in values) {
+      if (values[key] === "") {
+        setEmpty(key);
+        break;
+      } else{
+        setEmpty(false);
+      }
+    }
+    if (!isEmpty) {
+      if(isEditing){
+        dispatch(adminActions.updateBill.updateBillRequest(values));
+        setEditing(false);
+      } else {
+        dispatch(adminActions.createBill.createBillRequest(values));
+      }
+      setValues({
+        customerCode: "",
+        newIndicator: 0,
+        oldIndicator: 0,
+        hs: 1,
+        dntructiep: 0,
+        actualElectric: 0,
+        unitPrice: 0,
+        VATRate: 10,
+        signinDate: "",
+        isPayment: false,
+      });
+      handleCloseDialog();
+    }
   };
 
   const handleReload = () => dispatch(adminActions.getBills.getBillsRequest());
 
-  const handleDelete = (row) => dispatch(adminActions.deleteBill.deleteBillRequest(row));
+  const handleDelete = (row) =>
+    dispatch(adminActions.deleteBill.deleteBillRequest(row));
 
   React.useEffect(() => {
     if (bills) {
@@ -120,7 +151,7 @@ export default function QuanLyHoaDon() {
           placeholder="Nhập mã khách hàng"
           onChange={handleChangeSearch}
           sx={{ m: 1, width: "30ch" }}
-          value={searchValue?.customerCode || null}
+          value={searchValue?.customerCode || ""}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -155,8 +186,8 @@ export default function QuanLyHoaDon() {
               "aria-labelledby": "filter-menu",
             }}
           >
-            <MenuItem>Hóa đơn chưa thanh toán</MenuItem>
-            <MenuItem>Hóa đơn đã thanh toán</MenuItem>
+            <MenuItem onClick={() => dispatch(adminActions.payment())}>Hóa đơn chưa thanh toán</MenuItem>
+            <MenuItem onClick={() => dispatch(adminActions.paid())}>Hóa đơn đã thanh toán</MenuItem>
           </Menu>
         </Box>
       </Box>
@@ -167,6 +198,7 @@ export default function QuanLyHoaDon() {
           columns={columns}
           rows={bills}
           handleDelete={handleDelete}
+          functional={handleShow}
         />
       ) : (
         <Box
@@ -191,6 +223,8 @@ export default function QuanLyHoaDon() {
         handleClose={handleCloseDialog}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        isEditing={isEditing}
+        isEmpty={isEmpty}
         title="Thêm thông tin hóa đơn"
       />
     </Grid>
