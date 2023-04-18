@@ -15,3 +15,11 @@ Hoàn thiện tài liệu đặc tả usecase còn thiếu
 Không có
 ### Dự định tuần tới
 Tìm hiểu và thực hiện các test case cơ bản
+
+## Trịnh Hồng Nhung
+### Tuần trước thực hiện
+Tìm hiểu công cụ test case
+### Khó khăn gặp phải
+Không có
+### Dự định tuần tới
+Tìm hiểu và thực hiện các test case cơ bản
