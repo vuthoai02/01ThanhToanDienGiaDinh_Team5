@@ -10,7 +10,7 @@ Hoàn thành giao diện người dùng và kiểm tra nâng cao.
 
 ## Phan Thị Thuỳ Linh
 ### Tuần trước thực hiện
-Hoàn thiện tài liệu đặc tả usecase 
+Hoàn thiện tài liệu đặc tả usecase còn thiếu
 ### Khó khăn gặp phải
 Không có
 ### Dự định tuần tới
