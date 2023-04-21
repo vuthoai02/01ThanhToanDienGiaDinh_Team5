@@ -61,7 +61,7 @@ export default function Login() {
 
   const handleChange = (event) => {
     if (event.target) {
-      const { name, value, type } = event.target;
+      const { name, value } = event.target;
       setValues({ ...values, [name]: value });
     }
   };
@@ -78,6 +78,13 @@ export default function Login() {
     });
   }, [values, dispatch]);
 
+  React.ChildrenuseEffect(() => {
+    if(isLoading){
+      setTimeout(() => {
+        setLoading(false);
+      },4000);
+    }
+  }, [isLoading]);
 
   return (
     <Grid item xs={12} className="container" sx={{ height: "98vh" }}>

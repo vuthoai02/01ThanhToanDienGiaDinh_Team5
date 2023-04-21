@@ -12,7 +12,7 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-import {Bolt} from '@mui/icons-material'
+import { Bolt } from "@mui/icons-material";
 
 export default function Login() {
   const user = useSelector(userState$)?.info;
@@ -45,7 +45,7 @@ export default function Login() {
 
   const handleChange = (event) => {
     if (event.target) {
-      const { name, value, type } = event.target;
+      const { name, value } = event.target;
       setValues({ ...values, [name]: value });
     }
   };
@@ -67,6 +67,19 @@ export default function Login() {
     }
   }, [user]);
 
+  useEffect(() => {
+    if(isLoading && !user){
+      setTimeout(() => {
+        setLoading(false);
+        setValues({
+          userName: "",
+          password: "",
+          role: false,
+        });
+      },4000);
+    }
+  }, [isLoading, user]);
+
   return (
     <Grid item xs={12} className="container" sx={{ height: "98vh" }}>
       <Typography
@@ -78,7 +91,7 @@ export default function Login() {
           padding: "5px 10px",
         }}
       >
-        <Bolt fontSize="large"/>
+        <Bolt fontSize="large" />
         EEnergy
       </Typography>
       <Paper
@@ -131,7 +144,7 @@ export default function Login() {
           <Link underline="none" margin={"10px 0"}>
             Quên mật khẩu?
           </Link>
-          <Link underline="none" margin={"10px 0"} href='/register'>
+          <Link underline="none" margin={"10px 0"} href="/register">
             Đăng ký tài khoản
           </Link>
         </Box>
