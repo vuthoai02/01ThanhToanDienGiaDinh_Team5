@@ -19,7 +19,7 @@ Hoàn thành giao diện người dùng và triển khai thực hiện test plan
 
 ## Phan Thị Thùy Linh
 ### Tuần trước thực hiện
-Mô tả lịch trình công việc và xác định yêu cầu tài nguyên
+Lập kế hoạch công việc trên Gantt và xác định yêu cầu tài nguyên
 ### Khó khăn gặp phải
 Xác định thời gian hoàn thành công việc
 ### Dự định tuần tới
