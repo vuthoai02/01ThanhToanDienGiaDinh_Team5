@@ -22,6 +22,7 @@ export default function Login() {
     role: false,
   });
   const [isLoading, setLoading] = useState(false);
+  const [isEmpty, setEmpty] = useState("");
   const dispatch = useDispatch();
 
   const formList = [
@@ -51,13 +52,23 @@ export default function Login() {
   };
 
   const handleLogin = React.useCallback(() => {
-    setLoading(true);
-    dispatch(getUser.getUserRequest(values));
-    setValues({
-      userName: "",
-      password: "",
-      role: false,
-    });
+    for (var key in values) {
+      if (values[key] === "") {
+        setEmpty(key);
+        break;
+      } else {
+        setEmpty(false);
+      }
+    }
+    if (!isEmpty) {
+      setLoading(true);
+      dispatch(getUser.getUserRequest(values));
+      setValues({
+        userName: "",
+        password: "",
+        role: false,
+      });
+    }
   }, [values, dispatch]);
 
   useEffect(() => {
@@ -68,7 +79,7 @@ export default function Login() {
   }, [user]);
 
   useEffect(() => {
-    if(isLoading && !user){
+    if (isLoading && !user) {
       setTimeout(() => {
         setLoading(false);
         setValues({
@@ -76,7 +87,7 @@ export default function Login() {
           password: "",
           role: false,
         });
-      },4000);
+      }, 4000);
     }
   }, [isLoading, user]);
 
@@ -122,6 +133,7 @@ export default function Login() {
             width={elm.width}
             value={elm.value}
             required={elm.required}
+            isEmpty={isEmpty}
             handleChange={handleChange}
           />
         ))}

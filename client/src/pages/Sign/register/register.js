@@ -9,7 +9,7 @@ import {
   Link,
   CircularProgress,
 } from "@mui/material";
-import {Bolt} from '@mui/icons-material'
+import { Bolt } from "@mui/icons-material";
 
 import { createUser } from "../../../redux/actions/userActions.js";
 
@@ -23,7 +23,7 @@ export default function Login() {
   });
   const dispatch = useDispatch();
   const [isLoading, setLoading] = React.useState(false);
-
+  const [isEmpty, setEmpty] = React.useState("");
   const formList = [
     {
       name: "userName",
@@ -67,22 +67,32 @@ export default function Login() {
   };
 
   const handleRegister = React.useCallback(() => {
-    setLoading(true);
-    dispatch(createUser.createUserRequest(values));
-    setValues({
-      userName: "",
-      password: "",
-      role: false,
-      customerCode: "",
-      email: "",
-    });
+    for (var key in values) {
+      if (values[key] === "") {
+        setEmpty(key);
+        break;
+      } else {
+        setEmpty(false);
+      }
+    }
+    if (!isEmpty) {
+      setLoading(true);
+      dispatch(createUser.createUserRequest(values));
+      setValues({
+        userName: "",
+        password: "",
+        role: false,
+        customerCode: "",
+        email: "",
+      });
+    }
   }, [values, dispatch]);
 
   React.ChildrenuseEffect(() => {
-    if(isLoading){
+    if (isLoading) {
       setTimeout(() => {
         setLoading(false);
-      },4000);
+      }, 4000);
     }
   }, [isLoading]);
 
@@ -97,7 +107,7 @@ export default function Login() {
           padding: "5px 10px",
         }}
       >
-        <Bolt fontSize="large"/>
+        <Bolt fontSize="large" />
         EEnergy
       </Typography>
       <Paper
@@ -127,12 +137,13 @@ export default function Login() {
             type={elm.type}
             width={elm.width}
             value={elm.value}
+            isEmpty={isEmpty}
             required={elm.required}
             handleChange={handleChange}
           />
         ))}
         <Button
-        onClick={handleRegister}
+          onClick={handleRegister}
           disabled={isLoading}
           variant="contained"
           color="success"
@@ -140,7 +151,7 @@ export default function Login() {
         >
           {isLoading ? <CircularProgress color="inherit" /> : "Submit"}
         </Button>
-        <Link underline="none" margin={"10px 0"} href='/login'>
+        <Link underline="none" margin={"10px 0"} href="/login">
           Đăng nhập
         </Link>
       </Paper>
