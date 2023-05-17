@@ -88,7 +88,7 @@ export default function Login() {
     }
   }, [values, dispatch]);
 
-  React.ChildrenuseEffect(() => {
+  React.useEffect(() => {
     if (isLoading) {
       setTimeout(() => {
         setLoading(false);
