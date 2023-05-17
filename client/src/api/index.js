@@ -30,6 +30,6 @@ export const createBill = (payload) => axios.post(`${URL}/admin/create-bill`, pa
 export const getBills = () => axios.get(`${URL}/admin/get-bills`);
 export const deleteBill = (payload) => axios.post(`${URL}/admin/delete-bill`, payload);
 export const updateCustomerCode = (payload) => axios.put(`${URL}/users/update-customer-code`,payload);
-export const getBillsByCode = (payload) => axios.get(`${URL}/customer/get-bills`, {params: payload});
+export const getBillsByCode = (payload) => axios.get(`${URL}/customer/get-bills`, {params: {customerCode: payload}});
 export const updateCustomer = (payload) => axios.put(`${URL}/admin/update-customer`,payload);
 export const updateBill = (payload) => axios.put(`${URL}/admin/update-bill`,payload);

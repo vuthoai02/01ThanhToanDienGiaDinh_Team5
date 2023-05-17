@@ -40,7 +40,7 @@ function* mySaga() {
     userActions.updateCusCode.updateCusCodeRequest,
     updateCusCode
   );
-  yield takeLatest(userActions.getBills.getBillsRequest, fetchBillsSaga);
+  yield takeLatest(userActions.getBills.getBillsURequest, fetchBillsSaga);
   yield takeLatest(userActions.fetchCustomer.fetchCustomerRequest, fetchCustomerSaga);
   yield takeLatest(userActions.showBill.showBillRequest, showBillSaga);
   yield takeLatest(userActions.changePassword.changePasswordRequest, changePasswordSaga);

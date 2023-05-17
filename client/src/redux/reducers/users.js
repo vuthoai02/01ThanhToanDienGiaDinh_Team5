@@ -27,8 +27,8 @@ export default function userReducers(state = INIT_STATE.user, action) {
     case getType(getUserById.getUserByIdFailure):
     case getType(updateCusCode.updateCusCodeRequest):
     case getType(updateCusCode.updateCusCodeFailure):
-    case getType(getBills.getBillsRequest):
-    case getType(getBills.getBillsFailure):
+    case getType(getBills.getBillsURequest):
+    case getType(getBills.getBillsUFailure):
     case getType(fetchCustomer.fetchCustomerRequest):
     case getType(fetchCustomer.fetchCustomerFailure):
     case getType(showBill.showBillRequest):
@@ -46,7 +46,7 @@ export default function userReducers(state = INIT_STATE.user, action) {
         ...state,
         info: { ...state.info, customerCode: action.payload },
       };
-    case getType(getBills.getBillsSuccess):
+    case getType(getBills.getBillsUSuccess):
       return { ...state, bills: action.payload };
     case getType(fetchCustomer.fetchCustomerSuccess):
       return { ...state, infoCus: action.payload };

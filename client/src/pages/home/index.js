@@ -76,7 +76,12 @@ export default function Home() {
           text: "Mật khẩu nhập lại không trùng khớp",
         });
       } else {
-        dispatch(userActions.changePassword.changePasswordRequest({userId: user?._id, password: newPassword.password}));
+        dispatch(
+          userActions.changePassword.changePasswordRequest({
+            userId: user?._id,
+            password: newPassword.password,
+          })
+        );
         setPassword({
           password: "",
           repeatPassword: "",
@@ -107,8 +112,10 @@ export default function Home() {
     if (tab === "qlkh") dispatch(adminActions.getCustomer.getCustomerRequest());
     if (tab === "qlu") dispatch(adminActions.getAllUsers.getAllUsersRequest());
     if (tab === "qlhd") dispatch(adminActions.getBills.getBillsRequest());
-    if (tab === "hd" && user?.customerCode)
-      dispatch(userActions.getBills.getBillsRequest(user?.customerCode));
+    if (tab === "hd" && user?.customerCode){
+      console.log('CALL')
+      dispatch(userActions.getBills.getBillsURequest(user?.customerCode));
+    }
     if (tab === "info" && user?.customerCode)
       dispatch(
         userActions.fetchCustomer.fetchCustomerRequest(user?.customerCode)

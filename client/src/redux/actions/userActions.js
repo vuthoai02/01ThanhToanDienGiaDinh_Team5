@@ -30,9 +30,9 @@ export const updateCusCode = createActions({
 });
 
 export const getBills = createActions({
-  getBillsRequest: payload => payload,
-  getBillsSuccess: payload => payload,
-  getBillsFailure: err => err
+  getBillsURequest: payload => payload,
+  getBillsUSuccess: payload => payload,
+  getBillsUFailure: err => err
 });
 
 export const fetchCustomer = createActions({

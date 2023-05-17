@@ -58,11 +58,13 @@ export function* updateCusCode(action){
 
 export function* fetchBillsSaga(action){
   try {
-    const bills = yield call(api.getBills, action.payload);
-    yield put(userActions.getBills.getBillsSuccess(bills.data.data));
+    console.log('Running Payload: ',action.payload);
+    const bills = yield call(api.getBillsByCode, action.payload);
+    console.log('Bills: ', bills)
+    yield put(userActions.getBills.getBillsUSuccess(bills.data.data));
   } catch (error) {
-    NotificationManager.error("", error.response.data.message, 3000);
-    yield put(userActions.getBills.getBillsFailure(error));
+    NotificationManager.error("", error.response?.data.message, 3000);
+    yield put(userActions.getBills.getBillsUFailure(error));
   }
 }
 
