@@ -3,6 +3,7 @@ Dự án học phần đánh giá và kiểm định chất lượng phần mề
 - Tên dự án: Hệ thống tính tiền điện cho hộ cá nhân
 - Nhóm thực hiện: 05
 - Đường dẫn demo: https://e-energy.netlify.app/
+- Đường dẫn TestCase Report: https://docs.google.com/spreadsheets/d/1qOpNexa1_cUBFZ-STmePQBD-GcRV7buC_cxXbcXiH7k/edit?usp=sharing
 
 ## Thành viên
 - Vũ Quang Thoại
