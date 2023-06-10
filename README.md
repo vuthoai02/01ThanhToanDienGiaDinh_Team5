@@ -15,7 +15,7 @@ Dự án học phần đánh giá và kiểm định chất lượng phần mề
 ### Tài khoản admin: 
 - email: phanthithuylinh2018ht@gmail.com 
 - pass: 1234567
-### Tài khoản người dùng: 
+### Tài khoản khách hàng: 
 - email: linh@gmail.com  
 - pass: 060801
 
